@@ -46,7 +46,7 @@ krenko = function(Ativo, size, thresholdtrendsize = 1, thresholdreversionsize=2)
   data$base <- rep(NA, length.out = dim(data)[1])
   
   data$direction[1] <- "up"
-  data$base[1] <- data$corridor_bottom[1]-size
+  data$base[1] <- data$corridor_bottom[1]
   j <- 1
   
   ## Threshold
@@ -111,7 +111,6 @@ krenko_plot= function(Ativo, size, thresholdtrendsize = 1, thresholdreversionsiz
   
   data <- krenko(Ativo, size,thresholdtrendsize,thresholdreversionsize)
   
-  data$base <- data$base + size ## plot propuses
   data$rleid[1] <- 1
   data$step <- seq(1, length.out=dim(data)[1])
   data2 <- data
