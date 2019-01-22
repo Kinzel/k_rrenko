@@ -111,6 +111,7 @@ krenko_plot= function(Ativo, size, thresholdtrendsize = 1, thresholdreversionsiz
   
   data <- krenko(Ativo, size,thresholdtrendsize,thresholdreversionsize)
   
+  data$base <- data$base + size ## plot propuses
   data$rleid[1] <- 1
   data$step <- seq(1, length.out=dim(data)[1])
   data2 <- data
