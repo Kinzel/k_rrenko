@@ -34,12 +34,12 @@ k_rrenko is an in-development R package to build Ranko plots and tables.
 
 ## Creator Comments
 
-Gaps in xts will create abnormal bricks in the plot. Plot work perfectly in smooth continuous time-series.
+Gaps in xts will create abnormal bricks in the plot. Plot work perfectly in smooth continuous time-series. The table (krenko) is not affected.
 
 ## Changelog
 
 ### 0.1.1 - 2019-01-22
-* There are some bugs, but working fine.
+* Working fine.
 
 ### 0.1.0 - 2019-12-13
 * Experimental use only.
