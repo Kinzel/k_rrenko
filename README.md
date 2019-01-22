@@ -21,6 +21,12 @@ k_rrenko is an in-development R package to build Ranko plots and tables.
 
 ## Example
 
+### Preparation
+
+    library(xts)
+    library(data.table)
+    library(ggplot2)
+
 ### Data
 
     set.seed(10)
