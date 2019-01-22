@@ -51,5 +51,5 @@ The table (krenko) is not affected.
 ### 0.1.1 - 2019-01-22
 * Working fine.
 
-### 0.1.0 - 2018-12-13
+### 0.1.0 - 2018-12-18
 * Experimental use only.
