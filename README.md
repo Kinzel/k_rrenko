@@ -9,14 +9,7 @@ k_rrenko is an in-development R package to build Ranko plots and tables.
 
 ## Variables
 
-    krenko(Ativo, size, thresholdtrendsize, thresholdreversionsize)
-
-* **Ativo** = a xts with close price
-* **size** = the size of the renko bricks (no default)
-* **thresholdtrendsize** = threshold size of trend brick (default = 1)
-* **thresholdreversionsize** = threshold size of reversion brick (default = 2)
-
-    krenko_plot(Ativo, size, thresholdtrendsize, thresholdreversionsize)
+    krenko_plot(Ativo, size, thresholdtrendsize, thresholdreversionsize, withDates)
 
 * **Ativo** = a xts with close price
 * **size** = the size of the renko bricks (no default)
@@ -24,7 +17,7 @@ k_rrenko is an in-development R package to build Ranko plots and tables.
 * **thresholdreversionsize** = threshold size of reversion brick (default = 2)
 * **withDates** = show the dates of xts (default = TRUE)
 
-## Examples
+## Example
 
 ### Data
 
