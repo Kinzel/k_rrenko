@@ -28,7 +28,7 @@ k_rrenko is an in-development R package to build Ranko plots and tables.
 
     krenko_plot(data, 1,withDates = F)
 
-![rrenko modern](/images/IMAGEM.png)
+![k_rrenko](/22012019renko2.png)
 
 
 ## Changelog
