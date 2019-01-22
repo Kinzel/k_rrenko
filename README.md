@@ -6,6 +6,8 @@ k_rrenko is an in-development R package to build Ranko plots and tables.
 ## Installation
 
     Just copy and paste the code.
+    
+    https://github.com/Kinzel/k_rrenko/blob/master/Renko.R
 
 ## Variables
 
@@ -30,6 +32,9 @@ k_rrenko is an in-development R package to build Ranko plots and tables.
 
 ![k_rrenko](/22012019renko2.png)
 
+## Creator Comments
+
+GAPs in xts will create abnormal bricks in the plot. Plot work perfectly in smooth continuous time-series.
 
 ## Changelog
 
