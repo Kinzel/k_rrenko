@@ -1,4 +1,4 @@
-krenko = function(Ativo, size, thresholdtrendsize = 1, thresholdreversionsize=2)
+krenko = function(Ativo, size, threshold = 1)
 {
   ## JAN/2019
   ## Guilherme Kinzel
@@ -11,37 +11,28 @@ krenko = function(Ativo, size, thresholdtrendsize = 1, thresholdreversionsize=2)
   require(data.table)
   require(xts)
   
-  if(thresholdtrendsize<0 | thresholdreversionsize<0)
-  {
-    stop("thresholdtrendsize and thresholdreversionsize should be >0")
-  }
-  
-  if(!is.xts(Ativo)){
+  if (!is.xts(Ativo)) {
     stop("X should be a xts")
   }
   
-  whereclose <- which(tolower(names(Ativo))=="close")
+  whereclose <- which(tolower(names(Ativo)) == "close")
   
-  if(length(whereclose)>0){
-    price <- Ativo[,whereclose]
-  }else{
+  if (length(whereclose) > 0) {
+    price <- Ativo[, whereclose]
+  } else{
     warning("Column 'Close' was not found. Using the last column")
-    price <- Ativo[,ncol(Ativo)]
+    price <- Ativo[, ncol(Ativo)]
   }
   
-  data <- data.table(date=index(Ativo),close=as.numeric(price))
-  names(data) <- c("date","close")
+  data <- data.table(date = index(Ativo), close = as.numeric(price))
+  names(data) <- c("date", "close")
   
-  data$corridor_bottom <- size * floor(data$close/size)
-  data$corridor_top <- data$corridor_bottom + size
+  data$corridor_bottom <- size * floor(data$close / size)
   
-  # whichandhead <- function(a,b){
-  #   return(head(which(a==b)))
-  # }
-  # data <- data[unlist(lapply(unique(Eu), whichandhead, rleid(data$corridor_bottom))),]
+  data <-
+    data[, head(.SD, 1), by = .(corridor_bottom, rleid(corridor_bottom))]
   
-  data <- data[, head(.SD, 1), by = .(corridor_bottom, rleid(corridor_bottom))]
-  
+  data$corridor_top <- rep(NA, length.out = dim(data)[1])
   data$direction <- rep(NA, length.out = dim(data)[1])
   data$base <- rep(NA, length.out = dim(data)[1])
   
@@ -49,54 +40,35 @@ krenko = function(Ativo, size, thresholdtrendsize = 1, thresholdreversionsize=2)
   data$base[1] <- data$corridor_bottom[1]
   j <- 1
   
-  ## Threshold
-  Delta <- size*thresholdtrendsize
-  DeltaReversion <- size*thresholdreversionsize
-  
-  for (i in 2:nrow(data)) {
-    fDif <- data$corridor_bottom[j] - data$corridor_bottom[i]
-    
-    ## avoid floating point error
-    if(round(abs(fDif),abs(log10(Delta)))<Delta)next
-    
-    if(fDif<0){
-      bHappened <- T
-      ## UP -> UP
-      ## DOWN -> UP
-      if(data$direction[j]=="down"
-         & abs(fDif) < DeltaReversion & j>1){
-        ##Reversion
-        bHappened <- F
-      }
-      
-      if(bHappened)
-      {
-        data$direction[i] <- "up"
-        data$base[i] <- data$base[j]+size
-        j <- i
-      }
-    }else if(fDif>0){
-      ##DOWN -> DOWN
-      ##UP -> DOWN
-      bHappened <- T
-      if(data$direction[j]=="up"
-         & abs(fDif) < DeltaReversion & j>1){
-        ##Reversion
-        bHappened <- F
-      }
-      if(bHappened)
-      {
-        data$direction[i] <- "down"
-        data$base[i] <- data$base[j]-size
-        j <- i
-      }
-    }
+  if (dim(data)[1] <= 1) {
+    stop("size too big")
   }
   
+  for (i in 2:nrow(data)) {
+    fDif <- (data$corridor_bottom[j] - data$corridor_bottom[i]) / size
+    
+    ## avoid floating point error
+    if (round(abs(fDif), 1) <= threshold)next
+    iJump = abs(fDif)-1
+    
+    if (fDif < 0) {
+      data$direction[i] <- "up"
+      data$base[i] <- data$base[j] + size*iJump
+      data$corridor_bottom[i] <- data$base[i]
+      data$corridor_top[i] <- data$corridor_bottom[i] + size
+      j <- i
+      
+    } else if (fDif > 0) {
+      data$direction[i] <- "down"
+      data$base[i] <- data$base[j] - size*iJump
+      data$corridor_top[i] <- data$base[i]
+      data$corridor_bottom[i] <- data$corridor_top[i] - size
+      j <- i
+    }
+    
+  }
   data <- data[!is.na(direction)]
-  data <- tail(data,-1)
-  
-  return(data)
+  data <- tail(data, -1)
 }
 
 krenko_plot= function(Ativo, size, thresholdtrendsize = 1, thresholdreversionsize=2, withDates=T, spacebetweenpriceaxis=1)
