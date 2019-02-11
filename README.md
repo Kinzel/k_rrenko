@@ -11,13 +11,11 @@ k_rrenko is an in-development R package to build Ranko plots and tables.
 
 ## Variables
 
-    krenko_plot(Ativo, size, thresholdtrendsize, thresholdreversionsize, withDates)
+    krenko_plot(Ativo, size, threshold, withDates)
 
 * **Ativo** = a xts with close price
 * **size** = the size of the renko bricks (no default)
-* **thresholdtrendsize** = threshold size of trend brick (default = 1)
-* **thresholdreversionsize** = threshold size of reversion brick (default = 2)
-* **withDates** = show the dates of xts (default = TRUE)
+* **threshold** = threshold size of trend brick (default = 1)
 
 ## Example
 
@@ -43,6 +41,9 @@ k_rrenko is an in-development R package to build Ranko plots and tables.
 Gaps in xts will create abnormal bricks in the plot. The first brick of the above plot is a example - there is a jump. Plot work perfectly in smooth continuous time-series. The table (krenko) is not affected.
 
 ## Changelog
+
+## 0.1.2 - 2019-02-11
+* Bug fixes.
 
 ### 0.1.1 - 2019-01-22
 * Working fine.
