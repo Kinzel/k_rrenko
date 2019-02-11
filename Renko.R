@@ -71,7 +71,7 @@ krenko = function(Ativo, size, threshold = 1)
   data <- tail(data, -1)
 }
 
-krenko_plot= function(Ativo, size, thresholdtrendsize = 1, thresholdreversionsize=2, withDates=T, spacebetweenpriceaxis=1)
+krenko_plot= function(Ativo, size, threshold=1, withDates=T, spacebetweenpriceaxis=1, title=NULL)
 {
   ## Guilherme Kinzel
   ## This code was only possible by RomanAbashin, rrenko package, https://github.com/RomanAbashin/rrenko
@@ -81,8 +81,9 @@ krenko_plot= function(Ativo, size, thresholdtrendsize = 1, thresholdreversionsiz
   
   require(ggplot2)
   
-  data <- krenko(Ativo, size,thresholdtrendsize,thresholdreversionsize)
+  data <- krenko(Ativo, size,threshold)
   
+  # data$base <- data$base + size ## plot propuses
   data$rleid[1] <- 1
   data$step <- seq(1, length.out=dim(data)[1])
   data2 <- data
@@ -93,14 +94,15 @@ krenko_plot= function(Ativo, size, thresholdtrendsize = 1, thresholdreversionsiz
   
   limitesMin <- min(limites)-size*spacebetweenpriceaxis
   limitesMax <- max(limites)+size*spacebetweenpriceaxis
-  
-  
+
+  # browser()
   g <- ggplot(data) + geom_col(aes(interaction(data$step), 
                                    base, fill = paste(direction, base != size), 
                                    color = paste(direction, base != size))) + 
     scale_fill_manual(values = c("#000000", "transparent","#FFFFFF", "transparent")) + 
     scale_color_manual(values = c("#000000","transparent", "#000000", "transparent")) +
-    coord_cartesian(ylim=c(limitesMin,limitesMax))
+    coord_cartesian(ylim=c(limitesMin,limitesMax)) 
+    #+ geom_point(aes(data$step, data$close))
   
   if(withDates){
     g <- g + theme(axis.text.x = element_text(angle = 90, hjust = 1), 
@@ -112,6 +114,11 @@ krenko_plot= function(Ativo, size, thresholdtrendsize = 1, thresholdreversionsiz
                    axis.title.x = element_blank(),
                    axis.title.y = element_blank(), legend.position = "none") + 
       scale_x_discrete(labels = c(data$date))
+  }
+  
+  if(!is.null(title))
+  {
+    g <- g + ggtitle(title)
   }
   return(g)
 }
