@@ -95,7 +95,6 @@ krenko_plot= function(Ativo, size, threshold=1, withDates=T, spacebetweenpriceax
   limitesMin <- min(limites)-size*spacebetweenpriceaxis
   limitesMax <- max(limites)+size*spacebetweenpriceaxis
 
-  # browser()
   g <- ggplot(data) + geom_col(aes(interaction(data$step), 
                                    base, fill = paste(direction, base != size), 
                                    color = paste(direction, base != size))) + 
