@@ -28,11 +28,11 @@ k_rrenko is an in-development R package to build Ranko plots and tables.
 ### Data
 
     set.seed(10)
-    data <- xts(x=abs(cumsum(rnorm(250))), order.by=as.POSIXct(Sys.Date()+1:250), born=as.POSIXct("1899-05-08"))
+    data <- xts(x=abs(cumsum(rnorm(200))), order.by=as.POSIXct(Sys.Date()+1:200), born=as.POSIXct("1899-05-08"))
 
 ### Code
 
-    krenko_plot(data, 1,withDates = F)
+    krenko_plot(data, 1.25,withDates = F)
 
 ![k_rrenko](/newkrenkoMAR2019.png)
 
