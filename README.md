@@ -38,7 +38,7 @@ k_rrenko is an in-development R package to build Ranko plots and tables.
 
 ### Creator comments
 
-Work better with time-series. GAPs are created by 'size' choice. Increase 'size' to reduce the number of GAPS. To reduce 'size' I suggest to use your minimum time-series object (as 1M and 5M). Time-series with big 'sizes' will result in a lot of GAPs. This is not a flaw in code, its how Renko works.
+Work better with time-series. GAPs are created by 'size' choice. Increase 'size' to reduce the number of GAPS. To reduce 'size' I suggest to use your minimum time-series object (as 1M and 5M). Time-series with large time-frame (as 12 Hours, 1DAY, etc) and with big 'sizes' will result in a lot of GAPs. This is not a flaw in code, its how Renko works.
 
 ## Changelog
 
