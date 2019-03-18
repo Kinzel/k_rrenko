@@ -29,8 +29,7 @@ krenko = function(Ativo, size, threshold = 1)
   
   data$corridor_bottom <- size * floor(data$close / size)
   
-  data <-
-    data[, head(.SD, 1), by = .(corridor_bottom, rleid(corridor_bottom))]
+  data <- data[, head(.SD, 1), by = .(corridor_bottom, rleid(corridor_bottom))]
   
   data$corridor_top <- rep(NA, length.out = dim(data)[1])
   data$direction <- rep(NA, length.out = dim(data)[1])
@@ -43,7 +42,7 @@ krenko = function(Ativo, size, threshold = 1)
   if (dim(data)[1] <= 1) {
     stop("size too big")
   }
-  
+
   for (i in 2:nrow(data)) {
     fDif <- (data$corridor_bottom[j] - data$corridor_bottom[i]) / size
     
@@ -53,21 +52,20 @@ krenko = function(Ativo, size, threshold = 1)
     
     if (fDif < 0) {
       data$direction[i] <- "up"
-      data$base[i] <- data$base[j] + size*iJump
-      data$corridor_bottom[i] <- data$base[i]
+      data$corridor_bottom[i] <- data$corridor_bottom[i] - size
       data$corridor_top[i] <- data$corridor_bottom[i] + size
       j <- i
       
     } else if (fDif > 0) {
       data$direction[i] <- "down"
-      data$base[i] <- data$base[j] - size*iJump
-      data$corridor_top[i] <- data$base[i]
-      data$corridor_bottom[i] <- data$corridor_top[i] - size
+      data$corridor_bottom[i] <- data$corridor_bottom[i] + size
+      data$corridor_top[i] <- data$corridor_bottom[i] + size
       j <- i
     }
-    
   }
+
   data <- data[!is.na(direction)]
+  data$base <- data$corridor_bottom
   data <- tail(data, -1)
 }
 
