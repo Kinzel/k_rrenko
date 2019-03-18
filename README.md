@@ -42,6 +42,8 @@ Gaps in xts will create abnormal bricks in the plot. The first brick of the abov
 
 ## Changelog
 
+## 0.1.3 2019-03-17
+* Bug fixes.
 
 ## 0.1.2 - 2019-02-11
 * Bug fixes.
